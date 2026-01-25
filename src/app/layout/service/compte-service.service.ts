@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Compte } from '../../model/compte';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class CompteService {
-  private apiServerUrl = "http://localhost:8080/comptes";
+    private apiServerUrl = `${environment.apiUrl}/comptes`;
+
   constructor(private http: HttpClient) { }
 
   public getComptes(): Observable<Compte[]> {

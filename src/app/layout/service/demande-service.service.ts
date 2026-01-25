@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { DossierCredit } from '../../model/dossier-credit';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class DemandeService {
-  apiUrl: string = 'http://localhost:8080/dossiers';
+    private apiUrl = `${environment.apiUrl}/dossiers`; // ← Utilisation de l'URL de l'environnement
 
   constructor(private http: HttpClient) { }
 
@@ -46,5 +46,5 @@ export class DemandeService {
     const params = new HttpParams().set('date', date);
     return this.http.get<number>(`${this.apiUrl}/count/lastMonth`, { params });
   }
-  
+
 }

@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { Agent } from '../../model/agent';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class AgentService {
   private agent: Agent|null = null;
-  private baseUrl = 'http://localhost:8080/agents'; // Adjust this URL if needed
+    private baseUrl = `${environment.apiUrl}/agents`;
 
   constructor(private http: HttpClient) {}
 
