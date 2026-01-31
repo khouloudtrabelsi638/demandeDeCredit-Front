@@ -1,4 +1,3 @@
-import { Agent } from './../../model/agent';
 import { MessageService } from 'primeng/api';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, GuardResult, MaybeAsync, Router, RouterStateSnapshot } from '@angular/router';
