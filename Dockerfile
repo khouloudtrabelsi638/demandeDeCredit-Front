@@ -1,27 +1,40 @@
 # Stage 1: Build Angular
 FROM node:18-alpine AS build
+
 WORKDIR /app
 
-# Copier uniquement package.json et package-lock.json pour accélérer le cache
+# Copier package.json
 COPY package*.json ./
 
 # Installer les dépendances
 RUN npm install
 
-# Copier le reste du projet
+# Copier le code source
 COPY . .
 
-# Construire le projet Angular
+# Build de l'application
 RUN npm run build
 
-# Stage 2: Nginx pour servir le frontend
+# Stage 2: Nginx
 FROM nginx:alpine
 
-# Copier le build Angular dans le dossier de Nginx
-COPY --from=build /app/dist/sakai-ng /usr/share/nginx/html/
+# Supprimer les fichiers par défaut de Nginx
+RUN rm -rf /usr/share/nginx/html/*
 
-# Exposer le port 80
+# Copier les fichiers depuis le dossier browser (Angular 17+)
+COPY --from=build /app/dist/sakai-ng/browser /usr/share/nginx/html/
+
+# Configuration Nginx pour Angular
+RUN echo 'server { \
+    listen 80; \
+    server_name localhost; \
+    root /usr/share/nginx/html; \
+    index index.html; \
+    location / { \
+        try_files $uri $uri/ /index.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
 
-# Lancer Nginx
 CMD ["nginx", "-g", "daemon off;"]
