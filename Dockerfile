@@ -13,7 +13,7 @@ RUN npm run build -- --configuration production --base-href / --output-path=dist
 
 FROM nginx:alpine
 
-LABEL maintainer="votre-email@example.com"
+LABEL maintainer="khouloudtrabelsi08@gmail.com"
 LABEL version="${BUILD_NUMBER}"
 LABEL description="Frontend Angular - Demande de Credit"
 
