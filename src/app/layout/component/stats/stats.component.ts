@@ -8,7 +8,7 @@ import { LigneCreditService } from '../../service/ligne-credit.service';
   standalone: true,
   selector: 'app-stats',
   imports: [CommonModule],
-  templateUrl:"./stats.Component.html"
+  templateUrl:"./stats.component.html"
 })
 export class StatsComponent implements OnInit {
   nbrDemandes: number = 0;
