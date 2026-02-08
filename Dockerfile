@@ -6,7 +6,7 @@ WORKDIR /app
 # Copier les fichiers de dépendances
 COPY package*.json ./
 
-# Installer les dépendances
+# Installer les dépendances avec legacy-peer-deps pour éviter les conflits
 RUN npm install --legacy-peer-deps && \
     npm install @angular/cdk@19.0.0 --legacy-peer-deps
 
@@ -22,12 +22,11 @@ FROM nginx:alpine
 # Copier la configuration nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# ⚠️ ADAPTER CE CHEMIN selon votre angular.json outputPath
-# Par défaut Angular 17+ utilise dist/[project-name]/browser
-COPY --from=builder /app/dist/demande-credit-frontend/browser /usr/share/nginx/html/browser
+COPY --from=builder /app/dist/sakai-ng/browser /usr/share/nginx/html/browser
 
-# Vérifier que les fichiers sont présents
-RUN ls -la /usr/share/nginx/html/browser
+# Vérifier que les fichiers sont présents (debug)
+RUN ls -la /usr/share/nginx/html/browser && \
+    cat /usr/share/nginx/html/browser/index.html | head -5
 
 EXPOSE 80
 
