@@ -15,7 +15,7 @@ RUN rm -rf /usr/share/nginx/html/* /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist/app /usr/share/nginx/html
 
-# Fix permissions for existing nginx user instead of creating new one
+# Fix permissions (nginx user already exists in base image)
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
     chmod -R 755 /usr/share/nginx/html
 
@@ -23,5 +23,5 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD wget --quiet --tries=1 --spider http://localhost:80/ || exit 1
 
 EXPOSE 80
-USER nginx
+# DON'T switch to nginx user - causes read-only filesystem issues
 CMD ["nginx", "-g", "daemon off;"]
